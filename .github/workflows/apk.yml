@@ -1,0 +1,42 @@
+name: APK
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+concurrency:
+  group: apk
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GATO_SITE: https://gatoflix.ttktrampo1.workers.dev
+      GATO_KS_PASS: gatoflix
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: keystore.jks
+          key: gatoflix-keystore-v1
+      - name: Chave de assinatura
+        run: |
+          if [ ! -f keystore.jks ]; then
+            keytool -genkeypair -keystore keystore.jks -alias gatoflix -keyalg RSA \
+              -keysize 2048 -validity 10000 -storepass gatoflix -keypass gatoflix \
+              -dname "CN=Gato Flix, O=Gato Flix, C=BR"
+          fi
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: '8.7' }
+      - run: gradle assembleRelease --no-daemon
+      - run: cp app/build/outputs/apk/release/app-release.apk gato-flix.apk
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk
+          name: Gato Flix APK
+          make_latest: true
+          files: gato-flix.apk
+        env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
