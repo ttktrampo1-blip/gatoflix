@@ -2,9 +2,9 @@
 
 O worker já está apontado para:
 
-    https://github.com/ttktrampo1/gatoflix/releases/latest/download/gato-flix.apk
+    https://github.com/ttktrampo1-blip/gatoflix/releases/latest/download/gato-flix.apk
 
-Ou seja: se o repositório for **ttktrampo1/gatoflix**, não existe nada para configurar. Basta subir o projeto e rodar o build uma vez.
+Ou seja: se o repositório for **ttktrampo1-blip/gatoflix**, não existe nada para configurar. Basta subir o projeto e rodar o build uma vez.
 
 O app é um invólucro WebView: abre o site em tela cheia, com ícone próprio, sem barra de navegador.
 
@@ -18,7 +18,7 @@ O app é um invólucro WebView: abre o site em tela cheia, com ícone próprio, 
 
 ## Jeito manual
 
-1. Crie o repositório **ttktrampo1/gatoflix** (pode ser **privado**, mas aí veja a seção do token).
+1. Crie o repositório **ttktrampo1-blip/gatoflix** (pode ser **privado**, mas aí veja a seção do token).
 2. Descompacte o `__fonte.zip` no computador.
 3. Na página inicial do repositório, clique em **Add file > Upload files** e arraste a pasta descompactada inteira.
 4. Confirme em **Commit changes**. A pasta `.github` começa com ponto e pode ficar oculta no seu sistema — confirme que ela subiu.
