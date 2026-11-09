@@ -1,0 +1,27 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'br.gatoflix.app'
+    compileSdk 34
+    defaultConfig {
+        applicationId 'br.gatoflix.app'
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName '1.0'
+        buildConfigField 'String', 'SITE', '"' + (System.getenv('GATO_SITE') ?: 'https://gatoflix.ttktrampo1.workers.dev') + '"'
+    }
+    buildFeatures { buildConfig true }
+    lint { abortOnError false }
+    signingConfigs {
+        release {
+            storeFile file(System.getenv('GATO_KS') ?: "${rootDir}/keystore.jks")
+            storePassword System.getenv('GATO_KS_PASS') ?: 'gatoflix'
+            keyAlias 'gatoflix'
+            keyPassword System.getenv('GATO_KS_PASS') ?: 'gatoflix'
+        }
+    }
+    buildTypes {
+        release { signingConfig signingConfigs.release; minifyEnabled false }
+    }
+}
