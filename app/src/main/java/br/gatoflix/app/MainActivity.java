@@ -79,6 +79,8 @@ public class MainActivity extends Activity {
         return fora(url);
       }
       @Override public void onPageFinished(WebView v, String url) {
+        v.evaluateJavascript(
+            "window.__gatoTv=true;document.documentElement.classList.add('gato-tv');", null);
         if (abertura != null) { abertura.setVisibility(View.GONE); abertura = null; }
       }
     });
@@ -96,6 +98,11 @@ public class MainActivity extends Activity {
     });
 
     web.setDownloadListener((url, ua, cd, mime, tam) -> baixar(url, ua, cd, mime));
+
+    web.setFocusable(true);
+    web.setFocusableInTouchMode(true);
+    web.requestFocus();
+    web.setOverScrollMode(View.OVER_SCROLL_NEVER);
   }
 
   private boolean fora(String url) {
@@ -145,6 +152,11 @@ public class MainActivity extends Activity {
     web.setVisibility(View.VISIBLE);
     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     if (volta != null) { volta.onCustomViewHidden(); volta = null; }
+  }
+
+  @Override public boolean dispatchKeyEvent(KeyEvent ev) {
+    if (web != null && !web.hasFocus()) web.requestFocus();
+    return super.dispatchKeyEvent(ev);
   }
 
   @Override public boolean onKeyDown(int codigo, KeyEvent ev) {
